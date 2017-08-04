@@ -8,4 +8,4 @@ bool testComponentTexture();
 bool testComponentText();
 bool testGameObject();
 bool testRoom();
-bool testRender();
+bool testRender(bool);

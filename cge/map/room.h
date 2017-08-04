@@ -7,7 +7,7 @@
 
 #include "game_object.h"
 #include "texture.h"
-#include "terminal.h"
+#include "io/terminal.h"
 
 using namespace std;
 

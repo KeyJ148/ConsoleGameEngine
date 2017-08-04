@@ -7,8 +7,8 @@
 #include "game_object.h"
 #include "position.h"
 #include "texture.h"
-#include "render.h"
-#include "terminal.h"
+#include "io/render.h"
+#include "io/terminal.h"
 
 using namespace std;
 
@@ -18,7 +18,7 @@ bool testStart(bool print) {
     bool test_component_text = testComponentText();
     bool test_game_object = testGameObject();
     bool test_room = testRoom();
-    bool test_render = testRender();
+    bool test_render = testRender(print);
 
     if (print){
         cout << "Tests: " << endl;
@@ -29,6 +29,10 @@ bool testStart(bool print) {
         cout << "[" << getAnswerText(test_room) << "]" << "Room" << endl;
         cout << "[" << getAnswerText(test_render) << "]" << "Render" << endl;
     }
+
+    Terminal* terminal = new Terminal();
+    terminal->getch();
+    delete terminal;
 }
 
 string getAnswerText(bool result){
@@ -98,7 +102,7 @@ bool testRoom(){
     return true;
 }
 
-bool testRender(){
+bool testRender(bool print){
     Position* position = new Position(1, 1);
 
     char** tex = new char*[3];
@@ -121,8 +125,8 @@ bool testRender(){
 
     Position* up_left = new Position(0, 0);
     Position* up_right = new Position(79, 0);
-    Position* down_right = new Position(79, 24);
-    Position* down_left = new Position(0, 24);
+    Position* down_right = new Position(79, 23);
+    Position* down_left = new Position(0, 23);
 
     GameObject* up_left_o = new GameObject();
     up_left_o->addComponent(textureMini);
@@ -153,7 +157,7 @@ bool testRender(){
     Terminal* terminal = new Terminal();
     Render* render = new Render(*terminal);
 
-    render->render(room);
+    if (print) render->render(room);
 
     delete position;
     delete[] tex;

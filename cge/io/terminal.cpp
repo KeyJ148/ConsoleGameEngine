@@ -1,8 +1,8 @@
 #include "terminal.h"
 
-#include "global.h"
+#include "system/global.h"
 
-Terminal::Terminal() : Terminal(80, 25){}
+Terminal::Terminal() : Terminal(80, 24){}
 
 Terminal::Terminal(int width, int height) {
     this->width = width;

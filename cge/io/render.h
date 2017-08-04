@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "room.h"
-#include "terminal.h"
+#include "io/terminal.h"
 
 using namespace std;
 
