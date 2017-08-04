@@ -5,6 +5,7 @@
 #include <ostream>
 #include <iostream>
 
+#include "room.h"
 #include "terminal.h"
 
 using namespace std;
@@ -24,6 +25,6 @@ public:
     Render(Terminal, int, int);
     void setWidth(int);
     void setHeight(int);
-    void render(const list<GameObject*>&);
+    void render(Room* room);
 };
 

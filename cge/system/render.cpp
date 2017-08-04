@@ -3,6 +3,7 @@
 #include "game_object.h"
 #include "position.h"
 #include "texture.h"
+#include "room.h"
 
 Render::Render(Terminal terminal) : Render(terminal, 0, 0) {}
 
@@ -35,9 +36,10 @@ void Render::setHeight(int height) {
     initVector(this->width, height);
 }
 
-void Render::render(const list<GameObject*>& objects){
+void Render::render(Room* room){
+    list<GameObject*>* objects = room->objects;
     //Выполняем цикл для каждого объекта в комнате, добавляя его указатель на массив символом консоли
-    for (auto it = objects.begin(); it != objects.end(); ++it){
+    for (auto it = objects->begin(); it != objects->end(); ++it){
         //Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
         Position* position = static_cast<Position*> ((*it)->getComponent("position"));
         Texture* texture = static_cast<Texture*> ((*it)->getComponent("texture"));
@@ -66,10 +68,10 @@ void Render::render(const list<GameObject*>& objects){
 
             Texture* texture = static_cast<Texture*> (visibleMap[i][j]->getComponent("texture"));
             Position* position = static_cast<Position*> (visibleMap[i][j]->getComponent("position"));
-            int xArr = x+j - position->x;
-            int yArr = y+i - position->y;
+            int x_arr = x+j - position->x;
+            int y_arr = y+i - position->y;
 
-            (*terminal.out) << texture->texture[yArr][xArr];
+            (*terminal.out) << texture->texture[y_arr][x_arr];
         }
         (*terminal.out) << endl;
     }

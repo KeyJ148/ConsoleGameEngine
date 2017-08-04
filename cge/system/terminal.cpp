@@ -1,18 +1,16 @@
 #include "terminal.h"
 
-Terminal::Terminal() : Terminal(WINDOWS){}
+#include "global.h"
 
-Terminal::Terminal(int os) : Terminal(os, 80, 25) {}
+Terminal::Terminal() : Terminal(80, 25){}
 
-Terminal::Terminal(int width, int height) : Terminal(WINDOWS, width, height){}
-
-Terminal::Terminal(int os, int width, int height) {
-    this->os = os;
+Terminal::Terminal(int width, int height) {
     this->width = width;
     this->height = height;
+    initTermios();
 }
 
-//Настройка терминала
+//Настройка терминала, отключает буффер ввода
 void Terminal::initTermios() {
     tcgetattr(0, &old); //Сохранить старые настройки терминала
     now = old; //Создать новые настройки на основе старых
@@ -28,17 +26,21 @@ void Terminal::resetTermios() {
 
 //Считать 1 символ из консоли не выводя его
 char Terminal::getch() {
-    initTermios();
-    char ch = getchar();
-    resetTermios();
+    return getchar();
+}
 
-    return ch;
+string Terminal::getLine(){
+    resetTermios();
+    string s;
+    getline(cin, s);
+    initTermios();
+    return s;
 }
 
 //Очистить консоль
 void Terminal::clear(){
-    switch (os){
-        case WINDOWS: system("cls"); break;
-        case LINUX: system("clear"); break;
+    switch (Global::os){
+        case Global::WINDOWS: system("cls"); break;
+        case Global::LINUX: system("clear"); break;
     }
 }

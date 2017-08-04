@@ -1,3 +1,5 @@
+#include "test.h"
+
 #include <iostream>
 #include <algorithm>
 #include <list>
@@ -10,7 +12,9 @@
 
 using namespace std;
 
-void test(Terminal* terminal){
+void test(){
+    Terminal* terminal = new Terminal();
+
     cout << "Привет!" << endl;
     cout << "Введите x и y позицию: ";
 
@@ -51,13 +55,20 @@ void test(Terminal* terminal){
     GameObject* o = new GameObject();
     o->addComponent(textureBig);
     o->addComponent(posReturned);
-    list<GameObject*>* l = new list<GameObject*>;
-    l->push_back(o);
+
+    char** background = new char*[1];
+    background[0] = " ";
+    Texture* backtex = new Texture(background, 1, 1);
+    Room* room = new Room(100, 100, backtex);
+    room->objects->push_back(o);
 
     (*terminal->out) << "terminal test" << endl;
     cout << "start render" << endl;
-    render->render(*l);
+    render->render(room);
     cout << "end" << endl;
+    cout << "enter line" << endl;
+    string s = terminal->getLine();
+    cout << "string: " << s << endl;
 
     terminal->getch();
     for (int i=0; i<10; i++){
@@ -66,20 +77,13 @@ void test(Terminal* terminal){
         cout << "Игра" << endl;
     }
 
-}
-
-int main(int argc, char* argv[]) {
-    Terminal* terminal;
-    if (argc > 1){
-        string os = argv[1];
-        transform(os.begin(), os.end(), os.begin(), ::tolower);
-        if (os == "windows") terminal = new Terminal(Terminal::WINDOWS);
-        if (os == "linux") terminal = new Terminal(Terminal::LINUX);
-    } else {
-        terminal = new Terminal(Terminal::WINDOWS);
+    cout << "start fps test" << endl;
+    terminal->getch();
+    for (int i=0; i<10000; i++){
+        terminal->clear();
+        render->render(room);
+        terminal->getch();
     }
 
-    test(terminal);
-    return 0;
+    terminal->getch();
 }
-
