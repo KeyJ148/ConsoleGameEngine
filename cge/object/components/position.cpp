@@ -22,7 +22,7 @@ Position* Position::copy() {
     return new Position(*this);
 }
 
-inline void Position::update(long delta) {}
+inline void Position::update() {}
 
 string Position::getType() {
     return "position";

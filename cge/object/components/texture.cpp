@@ -29,17 +29,15 @@ Texture::Texture(const Texture& copy) {
 
 Texture::~Texture() {
     for (int i=0; i<texture_h; i++){
-        delete texture[i];
+        delete[] texture[i];
     }
-
-    delete texture;
 }
 
 Texture* Texture::copy() {
     return new Texture(*this);
 }
 
-inline void Texture::update(long delta) {}
+inline void Texture::update() {}
 
 string Texture::getType() {
     return "texture";

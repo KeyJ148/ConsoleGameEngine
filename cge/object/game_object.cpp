@@ -20,9 +20,9 @@ GameObject::~GameObject() {
     delete components; //Удаляем список
 }
 
-void GameObject::update(long delta) {
+void GameObject::update() {
     for (list<Component*>::iterator it = components->begin(); it != components->end(); ++it){
-        (*it)->update(delta);//Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
+        (*it)->update();//Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
 
     }
 }

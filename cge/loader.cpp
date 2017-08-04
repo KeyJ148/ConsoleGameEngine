@@ -1,12 +1,14 @@
-#include <terminal.h>
 #include <algorithm>
 
+#include "terminal.h"
 #include "global.h"
 #include "test.h"
 
 int loader(int os){
     Global::os = os;
-    test();
+    testStart(true);
+
+    return 0;
 }
 
 int main(int argc, char* argv[]) {

@@ -15,7 +15,7 @@ public:
     Position(int, int);
     Position(int, int, int, int);
     Position(const Position&);
-    void update(long);
+    void update();
     Position* copy();
     string getType();
 };

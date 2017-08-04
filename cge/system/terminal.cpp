@@ -29,6 +29,7 @@ char Terminal::getch() {
     return getchar();
 }
 
+//Считать строку с консоли
 string Terminal::getLine(){
     resetTermios();
     string s;

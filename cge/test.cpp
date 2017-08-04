@@ -12,78 +12,169 @@
 
 using namespace std;
 
-void test(){
-    Terminal* terminal = new Terminal();
+bool testStart(bool print) {
+    bool test_component_position = testComponentPosition();
+    bool test_component_texture = testComponentTexture();
+    bool test_component_text = testComponentText();
+    bool test_game_object = testGameObject();
+    bool test_room = testRoom();
+    bool test_render = testRender();
 
-    cout << "Привет!" << endl;
-    cout << "Введите x и y позицию: ";
+    if (print){
+        cout << "Tests: " << endl;
+        cout << "[" << getAnswerText(test_component_position) << "]" << "Component position" << endl;
+        cout << "[" << getAnswerText(test_component_texture) << "]" << "Component texture" << endl;
+        cout << "[" << getAnswerText(test_component_text) << "]" << "Component text" << endl;
+        cout << "[" << getAnswerText(test_game_object) << "]" << "Game object" << endl;
+        cout << "[" << getAnswerText(test_room) << "]" << "Room" << endl;
+        cout << "[" << getAnswerText(test_render) << "]" << "Render" << endl;
+    }
+}
 
-    int x, y;
-    //cin >> x >> y;
-    GameObject obj;
-    Position* pos = new Position(5, 10, 10, 3);
-    Texture* texture = new Texture();
-    obj.addComponent(pos);
-    obj.addComponent(texture);
+string getAnswerText(bool result){
+    return (result)? "OK" : "FAILED";
+}
 
-    cout << "find position: " << obj.findComponent("position") << endl;
-    Position* posReturned = static_cast<Position*>(obj.getComponent("position"));
-    cout << "x,y: " << posReturned->x << " " << posReturned->y << endl;
-    cout << "w,h: " << posReturned->width << " " << posReturned->height << endl;
-    cout << "remove position: " << obj.removeComponent("position") << endl;
-    cout << "find position: " << obj.findComponent("position") << endl;
+bool testComponentPosition(){
+    Position* position1 = new Position();
+    Position* position2 = new Position(*position1);
+    Position* position3 = position1->copy();
 
-    cout << "find texture: " << obj.findComponent("texture") << endl;
-    Texture* textureReturned = static_cast<Texture*>(obj.getComponent("texture"));
-    cout << "w,h: " << textureReturned->texture_w << " " << textureReturned->texture_h << endl;
-    cout << "texture: " << textureReturned->texture[0][0] << endl;
-    cout << "remove texture: " << obj.removeComponent("texture") << endl;
-    cout << "find texture: " << obj.findComponent("texture") << endl;
+    if (position1 == position2) return false;
+    if (position1 == position3) return false;
+    if (position2 == position3) return false;
+
+    position1->update();
+    delete position1;
+    delete position2;
+    delete position3;
+
+    return true;
+}
+
+bool testComponentTexture(){
+    Texture* texture1 = new Texture();
+    Texture* texture2 = new Texture(*texture1);
+    Texture* texture3 = texture1->copy();
+
+    if (texture1 == texture2) return false;
+    if (texture1 == texture3) return false;
+    if (texture2 == texture3) return false;
+
+    texture1->update();
+    delete texture1;
+    delete texture2;
+    delete texture3;
+
+    return true;
+}
+
+bool testComponentText(){
+    return true;
+}
+
+bool testGameObject(){
+    GameObject* object1 = new GameObject();
+    GameObject* object2 = new GameObject(*object1);
+
+    if (object1 == object2) return false;
+
+    object1->update();
+    delete object1;
+    delete object2;
+}
+
+bool testRoom(){
+    char** background = new char*[1];
+    background[0] = " ";
+    Texture* backtex = new Texture(background, 1, 1);
+    Room* room = new Room(100, 100, backtex);
+
+    if (room->objects->size() != 0) return false;
+    delete[] background;
+    delete backtex;
+    delete room;
+
+    return true;
+}
+
+bool testRender(){
+    Position* position = new Position(1, 1);
 
     char** tex = new char*[3];
     for (int i=0; i<3; i++)
-        tex[i] = new char[10];
+        tex[i] = new char[6];
 
-    tex[0] = "1234567890";
-    tex[1] = "qwertyuiop";
-    tex[2] = "asdfghjklz";
+    tex[0] = "test_1";
+    tex[1] = "test_2";
+    tex[2] = "test_3";
 
+    Texture* texture = new Texture(tex, 6, 3);
 
-    Texture* textureBig = new Texture(tex, 10, 3);
-    Render* render = new Render(*terminal);
+    GameObject* obj = new GameObject();
+    obj->addComponent(texture);
+    obj->addComponent(position);
 
-    GameObject* o = new GameObject();
-    o->addComponent(textureBig);
-    o->addComponent(posReturned);
+    char** texMini = new char*[1];
+    texMini[0] = "*";
+    Texture* textureMini = new Texture(texMini, 1, 1);
+
+    Position* up_left = new Position(0, 0);
+    Position* up_right = new Position(79, 0);
+    Position* down_right = new Position(79, 24);
+    Position* down_left = new Position(0, 24);
+
+    GameObject* up_left_o = new GameObject();
+    up_left_o->addComponent(textureMini);
+    up_left_o->addComponent(up_left);
+
+    GameObject* up_right_o = new GameObject();
+    up_right_o->addComponent(textureMini);
+    up_right_o->addComponent(up_right);
+
+    GameObject* down_right_o = new GameObject();
+    down_right_o->addComponent(textureMini);
+    down_right_o->addComponent(down_right);
+
+    GameObject* down_left_o = new GameObject();
+    down_left_o->addComponent(textureMini);
+    down_left_o->addComponent(down_left);
 
     char** background = new char*[1];
     background[0] = " ";
     Texture* backtex = new Texture(background, 1, 1);
     Room* room = new Room(100, 100, backtex);
-    room->objects->push_back(o);
+    room->objects->push_back(obj);
+    room->objects->push_back(up_left_o);
+    room->objects->push_back(up_right_o);
+    room->objects->push_back(down_right_o);
+    room->objects->push_back(down_left_o);
 
-    (*terminal->out) << "terminal test" << endl;
-    cout << "start render" << endl;
+    Terminal* terminal = new Terminal();
+    Render* render = new Render(*terminal);
+
     render->render(room);
-    cout << "end" << endl;
-    cout << "enter line" << endl;
-    string s = terminal->getLine();
-    cout << "string: " << s << endl;
 
-    terminal->getch();
-    for (int i=0; i<10; i++){
-        terminal->getch();
-        terminal->clear();
-        cout << "Игра" << endl;
-    }
+    delete position;
+    delete[] tex;
+    delete texture;
+    delete[] texMini;
+    delete textureMini;
+    delete obj;
+    delete background;
+    delete backtex;
+    delete room;
+    delete terminal;
+    delete render;
 
-    cout << "start fps test" << endl;
-    terminal->getch();
-    for (int i=0; i<10000; i++){
-        terminal->clear();
-        render->render(room);
-        terminal->getch();
-    }
+    delete up_left;
+    delete up_left_o;
+    delete up_right;
+    delete up_right_o;
+    delete down_right;
+    delete down_right_o;
+    delete down_left;
+    delete down_left_o;
 
-    terminal->getch();
+    return true;
 }

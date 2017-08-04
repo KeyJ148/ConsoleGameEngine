@@ -51,7 +51,7 @@ void Render::render(Room* room){
             position->y + texture->texture_h >= y && position->y < y+height){
                 for (int i = position->x; i < position->x+texture->texture_w; i++){
                     for (int j = position->y; j < position->y+texture->texture_h; j++){
-                        if (i-x > 0 && j-y > 0) visibleMap[j-y][i-x] = (*it);
+                        if (i-x >= 0 && j-y >= 0) visibleMap[j-y][i-x] = (*it);
                     }
                 }
         }
