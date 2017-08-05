@@ -1,3 +1,4 @@
+#include <system/global.h>
 #include "render.h"
 
 #include "game_object.h"
@@ -5,12 +6,11 @@
 #include "texture.h"
 #include "room.h"
 
-Render::Render(Terminal terminal) : Render(terminal, 0, 0) {}
+Render::Render() : Render(0, 0) {}
 
-Render::Render(Terminal terminal, int x, int y) {
-    initVector(terminal.width, terminal.height);
+Render::Render(int x, int y) {
+    initVector(Global::terminal->width, Global::terminal->height);
 
-    this->terminal = terminal;
     this->x = x;
     this->y = y;
 }
@@ -37,7 +37,7 @@ void Render::setHeight(int height) {
 }
 
 void Render::render(Room* room){
-    list<GameObject*>* objects = room->objects;
+    std::list<GameObject*>* objects = room->objects;
     //Выполняем цикл для каждого объекта в комнате, добавляя его указатель на массив символом консоли
     for (auto it = objects->begin(); it != objects->end(); ++it){
         //Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
@@ -61,7 +61,7 @@ void Render::render(Room* room){
     for (int i=0; i<height; i++){
         for (int j=0; j<width; j++){
             if (visibleMap[i][j] == nullptr){
-                (*terminal.out) << ' '; //Заменить на background комнаты
+                *(Global::terminal->out) << ' '; //Заменить на background комнаты
                 continue;
             }
 
@@ -71,8 +71,8 @@ void Render::render(Room* room){
             int x_arr = x+j - position->x;
             int y_arr = y+i - position->y;
 
-            (*terminal.out) << texture->texture[y_arr][x_arr];
+            *(Global::terminal->out) << texture->texture[y_arr][x_arr];
         }
-        (*terminal.out) << endl;
+        *(Global::terminal->out) << endl;
     }
 }

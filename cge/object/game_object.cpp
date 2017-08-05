@@ -20,11 +20,14 @@ GameObject::~GameObject() {
     delete components; //Удаляем список
 }
 
-void GameObject::update() {
+int GameObject::update() {
     for (list<Component*>::iterator it = components->begin(); it != components->end(); ++it){
-        (*it)->update();//Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
-
+        //Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
+        int result = (*it)->update();
+        if (result != 0) return result;
     }
+
+    return 0;
 }
 
 void GameObject::addComponent(Component* component) {

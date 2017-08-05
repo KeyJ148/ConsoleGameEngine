@@ -3,13 +3,21 @@
 #include "io/terminal.h"
 #include "global.h"
 #include "test.h"
+#include "cycle.h"
+
 
 int loader(int os, bool print_test){
     Global::os = os;
     Global::print_test = print_test;
-    testStart(Global::print_test);
+    Global::terminal = new Terminal();
+    Global::render = new Render();
 
-    return 0;
+    testStart(Global::print_test);
+    int result = Cycle::getInstance()->start();
+
+    Global::clear();
+    return result;
+
 }
 
 int main(int argc, char* argv[]) {

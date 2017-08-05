@@ -15,7 +15,7 @@ public:
     GameObject(const GameObject&);
     ~GameObject();
 
-    void update();
+    int update();
     void addComponent(Component*);
     bool removeComponent(string);
     bool findComponent(string);

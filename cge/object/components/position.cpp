@@ -22,7 +22,7 @@ Position* Position::copy() {
     return new Position(*this);
 }
 
-inline void Position::update() {}
+inline int Position::update() { return 0;}
 
 string Position::getType() {
     return "position";

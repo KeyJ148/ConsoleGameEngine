@@ -37,7 +37,7 @@ Texture* Texture::copy() {
     return new Texture(*this);
 }
 
-inline void Texture::update() {}
+inline int Texture::update() { return 0;}
 
 string Texture::getType() {
     return "texture";

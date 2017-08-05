@@ -18,4 +18,5 @@ public:
     list<GameObject*>* objects;//Указатель на список, который хранит указатели на объекты
     Texture* background;
     Room(int, int, Texture*);
+    int update();
 };

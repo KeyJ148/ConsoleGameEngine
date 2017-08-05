@@ -7,9 +7,9 @@
 #include "game_object.h"
 #include "position.h"
 #include "texture.h"
-#include "io/render.h"
+#include "cycle/render.h"
 #include "io/terminal.h"
-
+#include "global.h"
 using namespace std;
 
 bool testStart(bool print) {
@@ -21,18 +21,16 @@ bool testStart(bool print) {
     bool test_render = testRender(print);
 
     if (print){
-        cout << "Tests: " << endl;
-        cout << "[" << getAnswerText(test_component_position) << "]" << "Component position" << endl;
-        cout << "[" << getAnswerText(test_component_texture) << "]" << "Component texture" << endl;
-        cout << "[" << getAnswerText(test_component_text) << "]" << "Component text" << endl;
-        cout << "[" << getAnswerText(test_game_object) << "]" << "Game object" << endl;
-        cout << "[" << getAnswerText(test_room) << "]" << "Room" << endl;
-        cout << "[" << getAnswerText(test_render) << "]" << "Render" << endl;
+        *(Global::terminal->out) << "Tests: " << endl;
+        *(Global::terminal->out) << "[" << getAnswerText(test_component_position) << "]" << "Component position" << endl;
+        *(Global::terminal->out) << "[" << getAnswerText(test_component_texture) << "]" << "Component texture" << endl;
+        *(Global::terminal->out) << "[" << getAnswerText(test_component_text) << "]" << "Component text" << endl;
+        *(Global::terminal->out) << "[" << getAnswerText(test_game_object) << "]" << "Game object" << endl;
+        *(Global::terminal->out) << "[" << getAnswerText(test_room) << "]" << "Room" << endl;
+        *(Global::terminal->out) << "[" << getAnswerText(test_render) << "]" << "Render" << endl;
     }
 
-    Terminal* terminal = new Terminal();
-    terminal->getch();
-    delete terminal;
+    Global::terminal->getch();
 }
 
 string getAnswerText(bool result){
@@ -154,10 +152,7 @@ bool testRender(bool print){
     room->objects->push_back(down_right_o);
     room->objects->push_back(down_left_o);
 
-    Terminal* terminal = new Terminal();
-    Render* render = new Render(*terminal);
-
-    if (print) render->render(room);
+    if (print) Global::render->render(room);
 
     delete position;
     delete[] tex;
@@ -168,8 +163,6 @@ bool testRender(bool print){
     delete background;
     delete backtex;
     delete room;
-    delete terminal;
-    delete render;
 
     delete up_left;
     delete up_left_o;
