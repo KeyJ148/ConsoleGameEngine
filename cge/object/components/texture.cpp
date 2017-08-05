@@ -1,5 +1,7 @@
 #include "texture.h"
 
+using namespace std;
+
 Texture::Texture() {
     texture_h = 1;
     texture_w = 1;
@@ -8,6 +10,15 @@ Texture::Texture() {
     texture[0] = new char[texture_w];
     texture[0][0] = ' ';
 
+}
+
+Texture::Texture(string& s) {
+    texture_h = 1;
+    texture_w = s.length();
+
+    texture = new char*[texture_h];
+    texture[0] = new char[texture_w];
+    for (int i=0; i<s.length(); i++) texture[0][i] = s[i];
 }
 
 Texture::Texture(char** texture, int texture_w, int texture_h) {
@@ -38,7 +49,3 @@ Texture* Texture::copy() {
 }
 
 inline int Texture::update() { return 0;}
-
-string Texture::getType() {
-    return "texture";
-}

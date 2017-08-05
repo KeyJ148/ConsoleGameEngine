@@ -3,21 +3,20 @@
 #include <list>
 #include <string>
 
+#include "object/components/position.h"
+#include "object/components/texture.h"
+
 using namespace std;
 
 class Component;
 
 class GameObject {
-private:
-    list<Component*>* components;//Указатель на список, который хранит указатели на компоненты
 public:
     GameObject();
     GameObject(const GameObject&);
     ~GameObject();
-
     int update();
-    void addComponent(Component*);
-    bool removeComponent(string);
-    bool findComponent(string);
-    Component* getComponent(string);
+
+    Position* position;
+    Texture* texture;
 };

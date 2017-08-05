@@ -41,8 +41,8 @@ void Render::render(Room* room){
     //Выполняем цикл для каждого объекта в комнате, добавляя его указатель на массив символом консоли
     for (auto it = objects->begin(); it != objects->end(); ++it){
         //Делаем 2 разименовывания, вначале преобразуем итератор к типу данных, которые он содержит, потом разименовываем сам тип данных
-        Position* position = static_cast<Position*> ((*it)->getComponent("position"));
-        Texture* texture = static_cast<Texture*> ((*it)->getComponent("texture"));
+        Position* position = static_cast<Position*> ((*it)->position);
+        Texture* texture = static_cast<Texture*> ((*it)->texture);
 
         //Если объект имеет текстуру и находится в области видимости (сам объект или часть его текстуры),
         //то помещаем указатель на него в массив, а точнее во все ячейки где находится его текстура
@@ -66,8 +66,8 @@ void Render::render(Room* room){
             }
 
 
-            Texture* texture = static_cast<Texture*> (visibleMap[i][j]->getComponent("texture"));
-            Position* position = static_cast<Position*> (visibleMap[i][j]->getComponent("position"));
+            Texture* texture = static_cast<Texture*> (visibleMap[i][j]->texture);
+            Position* position = static_cast<Position*> (visibleMap[i][j]->position);
             int x_arr = x+j - position->x;
             int y_arr = y+i - position->y;
 

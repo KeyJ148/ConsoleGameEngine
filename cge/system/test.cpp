@@ -84,6 +84,8 @@ bool testGameObject(){
     object1->update();
     delete object1;
     delete object2;
+
+    return true;
 }
 
 bool testRoom(){
@@ -114,8 +116,8 @@ bool testRender(bool print){
     Texture* texture = new Texture(tex, 6, 3);
 
     GameObject* obj = new GameObject();
-    obj->addComponent(texture);
-    obj->addComponent(position);
+    obj->texture = texture;
+    obj->position = position;
 
     char** texMini = new char*[1];
     texMini[0] = "*";
@@ -127,20 +129,20 @@ bool testRender(bool print){
     Position* down_left = new Position(0, 23);
 
     GameObject* up_left_o = new GameObject();
-    up_left_o->addComponent(textureMini);
-    up_left_o->addComponent(up_left);
+    up_left_o->texture = textureMini->copy();
+    up_left_o->position = up_left->copy();
 
     GameObject* up_right_o = new GameObject();
-    up_right_o->addComponent(textureMini);
-    up_right_o->addComponent(up_right);
+    up_right_o->texture = textureMini->copy();
+    up_right_o->position = up_right->copy();
 
     GameObject* down_right_o = new GameObject();
-    down_right_o->addComponent(textureMini);
-    down_right_o->addComponent(down_right);
+    down_right_o->texture = textureMini->copy();
+    down_right_o->position = down_right->copy();
 
     GameObject* down_left_o = new GameObject();
-    down_left_o->addComponent(textureMini);
-    down_left_o->addComponent(down_left);
+    down_left_o->texture = textureMini->copy();
+    down_left_o->position = down_left->copy();
 
     char** background = new char*[1];
     background[0] = " ";

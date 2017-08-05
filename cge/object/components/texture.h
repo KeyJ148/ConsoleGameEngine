@@ -13,9 +13,9 @@ public:
 
     Texture();
     Texture(char**, int, int);//Указатель на двумерный массив и его размеры
+    Texture(string&);//Создание текстуры в виде строки текста
     Texture(const Texture&);
     ~Texture();
     int update();
     Texture* copy();
-    string getType();
 };
