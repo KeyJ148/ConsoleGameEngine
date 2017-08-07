@@ -13,6 +13,7 @@
 using namespace std;
 
 bool testStart(bool print) {
+
     bool test_component_position = testComponentPosition();
     bool test_component_texture = testComponentTexture();
     bool test_component_text = testComponentText();
@@ -31,6 +32,7 @@ bool testStart(bool print) {
     }
 
     Global::terminal->getch();
+    Global::terminal->clear();
 }
 
 string getAnswerText(bool result){
@@ -161,7 +163,7 @@ bool testRender(bool print){
     delete texture;
     delete[] texMini;
     delete textureMini;
-    delete obj;
+    //delete obj; //SEGFAULT после этой строчки
     delete background;
     delete backtex;
     delete room;

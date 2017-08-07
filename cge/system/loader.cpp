@@ -17,7 +17,6 @@ int loader(int os, bool print_test){
 
     Global::clear();
     return result;
-
 }
 
 int main(int argc, char* argv[]) {

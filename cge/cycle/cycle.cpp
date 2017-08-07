@@ -25,15 +25,18 @@ int Cycle::start() {
 
     int result;
     while (true) {
+        if (Global::room == nullptr) continue;
 
-        for (Listener* listener : *listeners) listener->updateStart();
+        for (Listener *listener : *listeners) listener->updateStart();
         result = Global::room->update();
         if (result != 0) break;
-        for (Listener* listener : *listeners) listener->updateEnd();
+        for (Listener *listener : *listeners) listener->updateEnd();
 
-        for (Listener* listener : *listeners) listener->renderStart();
-        render->render(Global::room);
-        for (Listener* listener : *listeners) listener->renderEnd();
+        if (Global::rendering) {
+            for (Listener *listener : *listeners) listener->renderStart();
+            render->render(Global::room);
+            for (Listener *listener : *listeners) listener->renderEnd();
+        }
     }
 
     for (Listener* listener : *listeners) listener->end(result);

@@ -1,6 +1,7 @@
 #include <cycle/render.h>
 #include "global.h"
 
+bool Global::rendering = true;
 int Global::os;
 int Global::print_test;
 Room* Global::room;

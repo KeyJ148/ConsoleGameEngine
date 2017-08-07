@@ -6,6 +6,7 @@
 class Global {
 
 public:
+    static bool rendering;
     static int os;
     static int print_test;
     static Room* room;
